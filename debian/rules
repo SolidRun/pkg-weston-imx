@@ -1,0 +1,26 @@
+#!/usr/bin/make -f
+# -*- makefile -*-
+# Sample debian/rules that uses debhelper.
+# This file was originally written by Joey Hess and Craig Small.
+# As a special exception, when this file is copied by dh-make into a
+# dh-make output file, you may use that output file without restriction.
+# This special exception was added by Craig Small in version 0.37 of dh-make.
+
+# Uncomment this to turn on verbose mode.
+export DH_VERBOSE=1
+
+# set XDG_RUNTIME_DIR for tests
+export XDG_RUNTIME_DIR=$(CURDIR)
+
+%:
+	dh $@ --parallel --with autoreconf
+
+override_dh_auto_clean:
+	dh_auto_clean
+	rm -f config.log
+
+override_dh_install:
+	dh_install --fail-missing -X.la
+
+override_dh_auto_configure:
+	dh_auto_configure -- --with-cairo-glesv2 --enable-clients --enable-simple-clients --enable-demo-clients-install --disable-colord --enable-egl --enable-simple-egl-clients --enable-fbdev-compositor --enable-headless-compositor --enable-imxg2d --disable-drm-compositor --enable-weston-launch --disable-lcms --enable-opengl --enable-systemd-login --disable-vaapi-recorder --enable-wayland-compositor --disable-x11-compositor WESTON_NATIVE_BACKEND=fbdev-backend.so

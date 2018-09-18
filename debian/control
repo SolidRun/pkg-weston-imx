@@ -1,0 +1,48 @@
+Source: weston-imx
+Section: x11
+Priority: optional
+Maintainer: Josua Mayer <josua@solid-run.com>
+Build-Depends:
+ debhelper (>= 9),
+ dh-autoreconf,
+ imx-gpu-viv-wl-dev,
+ libcairo2-dev,
+ libdbus-1-dev,
+ libdrm-dev (>= 2.4.30),
+ libg2d-dev,
+ libinput-dev (>= 0.8.0),
+ libpam0g-dev,
+ libpixman-1-dev (>= 0.25.2),
+ libsystemd-dev (>= 209),
+ libwayland-dev (>= 1.12.0),
+ libxkbcommon-dev (>= 0.3.0),
+ libxcb1-dev,
+ libxcb-composite0-dev,
+ libxcb-shape0-dev,
+ libxcb-xfixes0-dev,
+ libxcursor-dev,
+ wayland-protocols (>= 1.13),
+Standards-Version: 3.9.8
+
+Package: weston-imx
+Architecture: armel armhf arm64
+Depends:
+ ${misc:Depends},
+ ${shlibs:Depends},
+ libpam-systemd,
+Provides:
+ libweston-4-0,
+ weston,
+Description: wayland reference compositor for i.MX SoCs
+ This is the wayland reference compositor with patches from NXP
+ for optimized performance on NXP i.MX SoCs.
+
+Package: weston-imx-dev
+Architecture: armel armhf arm64
+Depends:
+ weston-imx (= ${binary:Version}),
+Provides:
+ libweston4-dev,
+Description: Development files for wayland-imx
+ This packages provides teh development files required for building
+ against wayland-imx.
