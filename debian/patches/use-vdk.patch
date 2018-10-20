@@ -1,0 +1,51 @@
+diff --git a/Makefile.am b/Makefile.am
+index 26a16eb6..07590320 100644
+--- a/Makefile.am
++++ b/Makefile.am
+@@ -336,7 +336,8 @@ g2d_renderer_la_LIBADD = 			\
+ 	libweston-@LIBWESTON_MAJOR@.la		\
+ 	$(EGL_LIBS)				\
+ 	$(COMPOSITOR_LIBS)			\
+-	-lg2d
++	-lg2d					\
++	-lVDK
+ g2d_renderer_la_CFLAGS =			\
+ 	$(COMPOSITOR_CFLAGS)			\
+ 	$(LIBDRM_CFLAGS)			\
+@@ -468,7 +469,8 @@ fbdev_backend_la_LIBADD =			\
+ 	libweston-@LIBWESTON_MAJOR@.la		\
+ 	$(COMPOSITOR_LIBS)			\
+ 	$(FBDEV_COMPOSITOR_LIBS)		\
+-	$(INPUT_BACKEND_LIBS)
++	$(INPUT_BACKEND_LIBS)			\
++	-lVDK
+ fbdev_backend_la_CFLAGS =			\
+ 	$(COMPOSITOR_CFLAGS)			\
+ 	$(EGL_CFLAGS)				\
+diff --git a/libweston/compositor-fbdev.c b/libweston/compositor-fbdev.c
+index 95ceee8d..10994900 100644
+--- a/libweston/compositor-fbdev.c
++++ b/libweston/compositor-fbdev.c
+@@ -53,6 +53,7 @@
+ #include "presentation-time-server-protocol.h"
+ 
+ #if defined(ENABLE_IMXGPU)
++#include <vdk.h>
+ #if defined(ENABLE_OPENGL)
+ #include "gl-renderer.h"
+ #endif
+diff --git a/libweston/g2d-renderer.c b/libweston/g2d-renderer.c
+index cc827111..4c8f474e 100644
+--- a/libweston/g2d-renderer.c
++++ b/libweston/g2d-renderer.c
+@@ -39,8 +39,9 @@
+ #include <sys/ioctl.h>
+ #include <fcntl.h>
+ #include <unistd.h>
+-#include <HAL/gc_hal.h>
+ #include <drm_fourcc.h>
++#include <vdk.h>
++#include <HAL/gc_hal_base.h>
+ 
+ #include "compositor.h"
+ #include "g2d-renderer.h"
